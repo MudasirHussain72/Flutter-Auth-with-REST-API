@@ -1,9 +1,12 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:task_one/models/users_model.dart';
+import 'package:task_one/screens/home_screen.dart';
 import 'package:task_one/utils/my_text_field.dart';
 import 'package:task_one/utils/rounded_button.dart';
-import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -17,6 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   List<UserModel> userList = [];
+
   Future<List<UserModel>> getUserApi() async {
     final response =
         await http.get(Uri.parse("https://jsonplaceholder.typicode.com/users"));
@@ -28,6 +32,29 @@ class _LoginScreenState extends State<LoginScreen> {
       return userList;
     } else {
       return userList;
+    }
+  }
+
+  var userEmail = [];
+  var userName = [];
+  login(email, password) async {
+    for (var i = 0; i < userList.length; i++) {
+      userList[i];
+      userEmail.add(userList[i].email);
+      userName.add(userList[i].username);
+    }
+    for (var i = 0; i < userEmail.length; i++) {
+      if (userEmail[i].toString() == email ||
+          userName[i].toString() == password) {
+        await Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const HomeScreen()),
+        );
+      } else {
+        print("........................failed");
+        print(userEmail[i]);
+        Navigator.pushReplacementNamed(context, "/HomeScreen");
+      }
     }
   }
 
@@ -76,7 +103,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   RoundedButton(
                       ontap: () {
                         if (_formKey.currentState!.validate()) {
-                          Navigator.pushNamed(context, "/HomeScreen");
+                          login(emailController.text.trim.toString(),
+                              passwordController.text.trim.toString());
                         }
                       },
                       title: "LOGIN",

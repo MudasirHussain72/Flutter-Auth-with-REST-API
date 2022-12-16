@@ -11,7 +11,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   void splashTimer() {
-    Timer(const Duration(seconds: 4), () {
+    Timer(const Duration(seconds: 2), () {
       Navigator.pushReplacementNamed(context, "/LoginScreen");
     });
   }
@@ -35,4 +35,3 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 }
-
